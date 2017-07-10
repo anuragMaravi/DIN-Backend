@@ -245,7 +245,8 @@ $page = "add-centre.php";
                     "number":centre_phone,
                     "description":centre_description,
                     "category":centre_category,
-                    "id":id
+                    "id":id,
+                    "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKG4fIYelEjQMLbGuXwLFomEMFPLdBznMy7xis5f1fmJaWfU13"
                 };
                 $.ajax({
                     type:"POST",
