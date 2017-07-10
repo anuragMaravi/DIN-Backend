@@ -79,10 +79,6 @@ $page = "add-membership.php";
 									<div class="form-group"><label class="col-sm-2 control-label">Centre</label>
 										<div class="col-sm-10">
 											<select id="membership-centre" class="chosen-select form-control" tabindex="2">
-												<option value="none">Select Centre</option>
-												<option value="Abc">Abc</option>
-												<option value="Def">Def</option>
-												<option value="Ghi">Ghi</option>
 											</select>
 										</div>
 									</div>
@@ -182,6 +178,23 @@ $page = "add-membership.php";
     <script src="js/plugins/codemirror/mode/xml/xml.js"></script>
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 	
+    <!-- Get the list of centres from the database and populate "select-centre" -->
+    <script >
+        $(function(){   
+            var centreOptions;
+            $.getJSON('http://128.199.190.92/api/dingyms',function(result){
+                $.each(result, function(i,centres) {
+                    centreOptions+="<option value='"
+                    +centres.id+
+                    "'>"
+                    +centres.name+
+                    "</option>";
+                });
+                $('#membership-centre').html(centreOptions);
+            });
+        });
+    </script>
+    
     <script>
         $(document).ready(function(){
             $('.dataTables-example').DataTable({
@@ -268,8 +281,8 @@ $page = "add-membership.php";
                 var membership_end_date = $("#membership-end-date").val();
                 var membership_mnp = $("#membership-mnp").val();
                 var membership_description = $("#membership-description").val();
-                var id = membership_name + "_" + membership_centre + "_" + membership_category;
-                var centre_id = membership_centre + "_" + membership_category;
+                var centre_id = $("#membership-centre").val();
+                var id = centre_id + "_" +membership_name.replace(/ /g, "_") + "_" +Math.floor((Math.random() * 100000) + 1);
 
                 var membership = {
                 	"membership_id": id,
