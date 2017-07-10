@@ -289,7 +289,8 @@ $page = "add-session.php";
                 	"session_end_time":session_end_time,
                 	"session_minperson":mnp,
                 	"session_description":session_description,
-                	"session_centre_id":centre_id
+                	"session_centre_id":centre_id,
+                    "session_image":"https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/1131281/580/386/m1/fpnw/wm0/drummer-drum-icons-set-hard-rock-heavy-folk-music-background-concept-flat-design-vector-illustration-.jpg?1459321807&s=3c4122b05921a1b4210ff597945324ce"
                 };
 
                 $.ajax({
