@@ -185,23 +185,23 @@ $page = "add-session.php";
     <script src="js/plugins/codemirror/mode/xml/xml.js"></script>
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 
+    <!-- Get the list of centres from the database and populate "select-centre" -->
 	<script >
-    $(function(){   
-    var centreOptions;
-    $.getJSON('http://128.199.190.92/api/dingyms',function(result){
-        $.each(result, function(i,centres) {
-            //<option value='countrycode'>contryname</option>
-            centreOptions+="<option value='"
-            +centres.id+
-            "'>"
-            +centres.name+
-            "</option>";
-             });
-             $('#session-centre').html(centreOptions);
-    });
-});
+        $(function(){   
+            var centreOptions;
+            $.getJSON('http://128.199.190.92/api/dingyms',function(result){
+                $.each(result, function(i,centres) {
+                    centreOptions+="<option value='"
+                    +centres.id+
+                    "'>"
+                    +centres.name+
+                    "</option>";
+                });
+                $('#session-centre').html(centreOptions);
+            });
+        });
+    </script>
 
-</script>
     <script>
         $(document).ready(function(){
             $('.dataTables-example').DataTable({
@@ -278,7 +278,6 @@ $page = "add-session.php";
             });
 
             $("#add-session").on("click",function(){
-            
                 var session_name = $("#session-name").val();
                 var session_centre = $("#session-centre").val();
                 var session_category = $("#session-category").val();
@@ -289,8 +288,8 @@ $page = "add-session.php";
                 var session_end_time = $("#session_end_time").val();
                 var mnp = $("#mnp").val();
                 var session_description = $("#session-description").val();
-                var id = session_name + "_" + session_centre + "_" + session_category;
-                var centre_id = session_centre + "_" + session_category;
+                var centre_id = $("#session-centre").val();
+                var id = centre_id + "_" +session_name.replace(/ /g, "_") + "_" +Math.floor((Math.random() * 100000) + 1);
 
                 var session = {
                 	"session_id": id,
