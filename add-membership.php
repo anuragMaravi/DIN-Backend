@@ -283,7 +283,8 @@ $page = "add-membership.php";
                 	"membership_end_date":membership_end_date,
                 	"membership_minperson":membership_mnp,
                 	"membership_description":membership_description,
-                	"membership_centre_id":centre_id
+                	"membership_centre_id":centre_id,
+                    "membership_image":"https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/1131281/580/386/m1/fpnw/wm0/drummer-drum-icons-set-hard-rock-heavy-folk-music-background-concept-flat-design-vector-illustration-.jpg?1459321807&s=3c4122b05921a1b4210ff597945324ce"
                 };
 
                 $.ajax({

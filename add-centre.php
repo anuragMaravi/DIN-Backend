@@ -237,7 +237,7 @@ $page = "add-centre.php";
                 var centre_description = $("#centre-description").val();
                 var centre_phone = $("#centre-phone").val();
                 var centre_address = $("#centre-address").val();
-                var id = centre_name + "_" + centre_category;
+                var id = centre_name.replace(/ /g, "_") + "_" + centre_category + "_" + Math.floor((Math.random() * 100000) + 1);
                 
                 var json = {
                     "name":centre_name,

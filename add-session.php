@@ -33,6 +33,7 @@ $page = "add-session.php";
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
+        
 </head>
 
 <body>
@@ -78,12 +79,7 @@ $page = "add-session.php";
 									</div>
 									<div class="form-group"><label class="col-sm-2 control-label">Centre</label>
 										<div class="col-sm-10">
-											<select id="session-centre" class="chosen-select form-control" tabindex="2">
-												<option value="none">Select Centre</option>
-												<option value="Abc">Abc</option>
-												<option value="Def">Def</option>
-												<option value="Ghi">Ghi</option>
-											</select>
+											<select id="session-centre" class="chosen-select form-control" tabindex="2"></select>
 										</div>
 									</div>
 									<div class="form-group"><label class="col-sm-2 control-label">Category</label>
@@ -96,6 +92,7 @@ $page = "add-session.php";
 											</select>
 										</div>
 									</div>
+
 									<!--
 									<div class="form-group"><label class="col-sm-2 control-label">Category</label>
 										<div class="col-sm-10" style="margin-bottom:5px;">
@@ -187,7 +184,24 @@ $page = "add-session.php";
     <script src="js/plugins/codemirror/codemirror.js"></script>
     <script src="js/plugins/codemirror/mode/xml/xml.js"></script>
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
-	
+
+	<script >
+    $(function(){   
+    var centreOptions;
+    $.getJSON('http://128.199.190.92/api/dingyms',function(result){
+        $.each(result, function(i,centres) {
+            //<option value='countrycode'>contryname</option>
+            centreOptions+="<option value='"
+            +centres.id+
+            "'>"
+            +centres.name+
+            "</option>";
+             });
+             $('#session-centre').html(centreOptions);
+    });
+});
+
+</script>
     <script>
         $(document).ready(function(){
             $('.dataTables-example').DataTable({
@@ -264,6 +278,7 @@ $page = "add-session.php";
             });
 
             $("#add-session").on("click",function(){
+            
                 var session_name = $("#session-name").val();
                 var session_centre = $("#session-centre").val();
                 var session_category = $("#session-category").val();
