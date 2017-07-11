@@ -76,33 +76,25 @@ $page = "add-slot.php";
 											<input type="text" class="form-control" id="slot-name" name="name" placeholder="Name of Slot" required/>
 										</div>
 									</div>
-									<div class="form-group"><label class="col-sm-2 control-label">Category</label>
+									<div class="form-group"><label class="col-sm-2 control-label">Type</label>
 										<div class="col-sm-10">
 											<select id="slot-category" class="chosen-select form-control" tabindex="2">
-												<option value="none">Select Category</option>
-												<option value="Gym">Gym</option>
-												<option value="Music">Music</option>
-												<option value="Dance">Dance</option>
+												<option value="session">Session</option>
+												<option value="membership">Membership</option>
 											</select>
 										</div>
 									</div>
 									<div class="form-group"><label class="col-sm-2 control-label">Centre</label>
 										<div class="col-sm-10">
 											<select id="slot-centre" class="chosen-select form-control" tabindex="2">
-												<option value="none">Select Centre</option>
-												<option value="Abc">Abc</option>
-												<option value="Def">Def</option>
-												<option value="Ghi">Ghi</option>
+											
 											</select>
 										</div>
 									</div>
-									<div class="form-group"><label class="col-sm-2 control-label">Session</label>
+									<div class="form-group"><label id="session-label" class="col-sm-2 control-label">Session</label>
 										<div class="col-sm-10">
 											<select id="slot-session" class="chosen-select form-control" tabindex="2">
-												<option value="none">Select Session</option>
-												<option value="Session 1">Session 1</option>
-												<option value="Session 2">Session 2</option>
-												<option value="Session 3">Session 3</option>
+												
 											</select>
 										</div>
 									</div>
@@ -170,6 +162,81 @@ $page = "add-slot.php";
     <script src="js/plugins/codemirror/codemirror.js"></script>
     <script src="js/plugins/codemirror/mode/xml/xml.js"></script>
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+
+    <!-- Get the list of centres from the database and populate "select-centre" -->
+    <script >
+        // First get the session data by default
+        $(function(){   
+            var centreOptions, sessionOptions;
+            $.getJSON('http://128.199.190.92/api/dingyms',function(result){
+                $.each(result, function(i,centres) {
+                    centreOptions+="<option value='"
+                    +centres.id+
+                    "'>"
+                    +centres.name+
+                    "</option>";
+                    for(j in centres.daily_sessions) {
+                        sessionOptions+="<option value='"
+                        +centres.daily_sessions[j].session_id+
+                        "'>"
+                        +centres.daily_sessions[j].session_name+
+                        "</option>";
+                    }
+                });
+                $('#slot-centre').html(centreOptions);
+                $('#slot-session').html(sessionOptions);
+            });
+        });
+
+        // Now if the option changes change the data accordingly
+        $("#slot-category").change(function(){
+            if($(this).val()=="session"){
+                var centreOptions, sessionOptions;
+                $.getJSON('http://128.199.190.92/api/dingyms',function(result){
+                    $.each(result, function(i,centres) {
+                        centreOptions+="<option value='"
+                        +centres.id+
+                        "'>"
+                        +centres.name+
+                        "</option>";
+                        for(j in centres.daily_sessions) {
+                            sessionOptions+="<option value='"
+                            +centres.daily_sessions[j].session_id+
+                            "'>"
+                            +centres.daily_sessions[j].session_name+
+                            "</option>";
+                        }
+                    });
+                    $('#session-label').html("Sessions");
+                    $('#slot-centre').html(centreOptions);
+                    $('#slot-session').html(sessionOptions);
+                });
+            }
+            if($(this).val()=="membership"){
+                var centreOptions, membershipOptions;
+                $.getJSON('http://128.199.190.92/api/dingyms',function(result){
+                    $.each(result, function(i,centres) {
+                        centreOptions+="<option value='"
+                        +centres.id+
+                        "'>"
+                        +centres.name+
+                        "</option>";
+                        for(j in centres.memberships) {
+                            membershipOptions+="<option value='"
+                            +centres.memberships[j].membership_id+
+                            "'>"
+                            +centres.memberships[j].membership_name+
+                            "</option>";
+                        }
+                    });
+                    
+                    $('#session-label').html("Memberships");
+                    $('#slot-centre').html(centreOptions);
+                    $('#slot-session').html(membershipOptions);
+                });
+            }
+        });
+    </script>
 	
     <script>
         $(document).ready(function(){
@@ -254,10 +321,9 @@ $page = "add-slot.php";
                 var slot_start_time = $("#slot-start-time").val();
                 var slot_end_time = $("#slot-end-time").val();
                 var slot_fee = $("#slot-fee").val();
-
-                var slot_session_id = slot_session + "_" + slot_centre + "_" + slot_category;
-                var id = slot_name + "_" + slot_session_id;
-                var centre_id = slot_centre + "_" + slot_category;
+                var slot_session_id = $("#slot-session").val();
+                var id = "slot_" + $("#slot-session").val() + "_" + Math.floor((Math.random() * 100000) + 1);
+                var centre_id = $("#slot-centre").val();
 
                 var slot = {
                     "slot_id": id,
@@ -278,6 +344,7 @@ $page = "add-slot.php";
                     success: function(data){
                         current_data = data;
                         
+                        if($("#slot-category").val() == "session")
                         for(var i=0; i<current_data.daily_sessions.length; i++) {
                             if(current_data.daily_sessions[i].session_id == slot_session_id) {
                                 if(!current_data.daily_sessions[i].session_slots) {
@@ -286,6 +353,18 @@ $page = "add-slot.php";
                                 }
                                 else{
                                     current_data.daily_sessions[i].session_slots.push(slot);
+                                }
+                            }
+                        }
+                        if($("#slot-category").val() == "membership")
+                        for(var i=0; i<current_data.memberships.length; i++) {
+                            if(current_data.memberships[i].membership_id == slot_session_id) {
+                                if(!current_data.memberships[i].membership_slots) {
+                                    current_data.memberships[i].membership_slots = [];
+                                    current_data.memberships[i].membership_slots.push(slot);
+                                }
+                                else{
+                                    current_data.memberships[i].membership_slots.push(slot);
                                 }
                             }
                         }

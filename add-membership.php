@@ -194,7 +194,7 @@ $page = "add-membership.php";
             });
         });
     </script>
-    
+
     <script>
         $(document).ready(function(){
             $('.dataTables-example').DataTable({
@@ -282,7 +282,7 @@ $page = "add-membership.php";
                 var membership_mnp = $("#membership-mnp").val();
                 var membership_description = $("#membership-description").val();
                 var centre_id = $("#membership-centre").val();
-                var id = centre_id + "_" +membership_name.replace(/ /g, "_") + "_" +Math.floor((Math.random() * 100000) + 1);
+                var id = centre_id + "_" +membership_name.replace(/ /g, "_") + "_" + Math.floor((Math.random() * 100000) + 1);
 
                 var membership = {
                 	"membership_id": id,

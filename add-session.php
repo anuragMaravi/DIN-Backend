@@ -85,10 +85,7 @@ $page = "add-session.php";
 									<div class="form-group"><label class="col-sm-2 control-label">Category</label>
 										<div class="col-sm-10">
 											<select id="session-category" class="chosen-select form-control" tabindex="2">
-												<option value="none">Select Category</option>
-												<option value="Gym">Gym</option>
-												<option value="Music">Music</option>
-												<option value="Dance">Dance</option>
+												
 											</select>
 										</div>
 									</div>
@@ -112,7 +109,7 @@ $page = "add-session.php";
 									</div>
 									<div class="form-group"><label class="col-sm-2 control-label">Duration</label>
 										<div class="col-sm-10" style="margin-bottom:5px;">
-											<input type="text" class="form-control" id="duration" name="duration" placeholder="3 Hours 30 Min." required/>
+											<input type="text" class="form-control" id="duration" name="duration" placeholder="3 Hours" required/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -130,7 +127,7 @@ $page = "add-session.php";
 										<label class="col-sm-2 control-label">End time</label>
 										<div class="col-sm-10">
 											<div class="input-group clockpicker" data-autoclose="true">
-												<input id="session_start_time" type="text" class="form-control" value="09:30" >
+												<input id="session_end_time" type="text" class="form-control" value="09:30" >
 												<span class="input-group-addon">
 													<span class="fa fa-clock-o"></span>
 												</span>
