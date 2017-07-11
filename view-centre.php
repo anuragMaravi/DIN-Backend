@@ -69,10 +69,11 @@ $page = "view-centre.php";
 							</div>
 							<div class="ibox-content">
 								<div class="table-responsive">
-									<table class="table table-striped table-bordered table-hover dataTables-example" >
+									<table id="table-body" class="table table-striped table-bordered table-hover dataTables-example" >
 										<thead>
 											<tr>
 												<th class="text-center">S.N.</th>
+                                                <th class="text-center">ID</th>
 												<th class="text-center">Name</th>
 												<th class="text-center">Logo</th>
 												<th class="text-center">Category</th>
@@ -81,28 +82,7 @@ $page = "view-centre.php";
 											</tr>
 										</thead>
 										<tbody class="text-center">
-											<tr class="gradeA">
-												<td class="text-center">01</td>
-												<td>Abc</td>
-												<td class="text-center"><img src="img/logo.png" width="50px" /></td>
-												<td class="text-center">Gym</td>
-												<td class="text-center">1234567890</td>
-												<td>
-													<a href="detail-centre.php" target="_blank"><input type="submit" name="submit" id="delete" class="btn btn-xs btn-primary" value="View detail" /></a>
-													<input type="submit" name="submit" id="delete" class="btn btn-xs btn-danger" value="Delete" />
-												</td>
-											</tr>
-											<tr class="gradeA">
-												<td class="text-center">02</td>
-												<td>Def</td>
-												<td class="text-center"><img src="img/logo.png" width="50px" /></td>
-												<td class="text-center">Music</td>
-												<td class="text-center">1234567890</td>
-												<td>
-													<a href="detail-centre.php" target="_blank"><input type="submit" name="submit" id="delete" class="btn btn-xs btn-primary" value="View detail" /></a>
-													<input type="submit" name="submit" id="delete" class="btn btn-xs btn-danger" value="Delete" />
-												</td>
-											</tr>
+										
 										</tbody>
 									</table>
 								</div>
@@ -138,9 +118,22 @@ $page = "view-centre.php";
     <script src="js/plugins/codemirror/mode/xml/xml.js"></script>
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 	
+    <!-- Get the list of centres from the database and populate the table -->
+
     <script>
+    var view_detail_button = '<a href="detail-centre.php" target="_blank"><input type="submit" name="submit" id="view_detail" class="btn btn-xs btn-primary" value="View detail" /></a><input type="submit" name="submit" id="delete" class="btn btn-xs btn-danger" value="Delete" />';
+
+    var centre_name = [];
+    var final_centre_list = [];
+    $.getJSON('http://128.199.190.92/api/dingyms',function(result){
+        $.each(result, function(i,centres) {
+            centre_name = [i+1, centres.id,centres.name, '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKG4fIYelEjQMLbGuXwLFomEMFPLdBznMy7xis5f1fmJaWfU13" width="50px" />', centres.category, centres.number, view_detail_button];
+            final_centre_list.push(centre_name)
+        });
+    });
+
         $(document).ready(function(){
-            $('.dataTables-example').DataTable({
+            var table = $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,
                 dom: '<"html5buttons"B>lTfgitp',
@@ -160,11 +153,22 @@ $page = "view-centre.php";
                                     .css('font-size', 'inherit');
                     }
                     }
-                ]
+                ],
+                data: final_centre_list
 
+            });
+            $('.dataTables-example tbody').on( 'click', 'td', function () 
+            {
+            var tr = $(this).closest("tr");
+            var rowindex = tr.index();
+            var data = table.row(rowindex).data();
+            sessionStorage.setItem("sent", data[1]); 
+            var win = window.open('detail-centre.php', '_blank');
+            win.focus();            
             });
 
         });
+        
 
     </script>
 	

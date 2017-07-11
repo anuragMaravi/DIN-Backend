@@ -509,6 +509,13 @@ $page = "view-centre.php";
     <script src="js/plugins/codemirror/mode/xml/xml.js"></script>
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 	
+	<script>
+		
+$(function(){   
+	var a = sessionStorage.getItem("sent");
+    alert(a);
+});
+	</script>
     <script>
         $(document).ready(function(){
             $('.dataTables-example').DataTable({
