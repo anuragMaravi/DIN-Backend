@@ -125,14 +125,18 @@ $page = "view-centre.php";
 
     var centre_name = [];
     var final_centre_list = [];
-    $.getJSON('http://128.199.190.92/api/dingyms',function(result){
-        $.each(result, function(i,centres) {
-            centre_name = [i+1, centres.id,centres.name, '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKG4fIYelEjQMLbGuXwLFomEMFPLdBznMy7xis5f1fmJaWfU13" width="50px" />', centres.category, centres.number, view_detail_button];
-            final_centre_list.push(centre_name)
-        });
-    });
 
-        $(document).ready(function(){
+    $.ajax({
+            type:"GET",
+            url:"http://128.199.190.92/api/dingyms",
+            success: function(data){
+                centres = data;
+                var i;
+                for(i in centres){
+                    centre_name = [i+1, centres[i].id,centres[i].name, '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKG4fIYelEjQMLbGuXwLFomEMFPLdBznMy7xis5f1fmJaWfU13" width="50px" />', centres[i].category, centres[i].number, view_detail_button];
+            final_centre_list.push(centre_name);
+                }
+                $(document).ready(function(){
             var table = $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,
@@ -157,6 +161,7 @@ $page = "view-centre.php";
                 data: final_centre_list
 
             });
+
             $('.dataTables-example tbody').on( 'click', 'td', function () 
             {
             var tr = $(this).closest("tr");
@@ -168,6 +173,10 @@ $page = "view-centre.php";
             });
 
         });
+        
+                }            
+        });
+
         
 
     </script>

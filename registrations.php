@@ -79,7 +79,7 @@ $page = "registrations.php";
 											</tr>
 										</thead>
 										<tbody class="text-center">
-											<tr class="gradeA">
+											<!-- <tr class="gradeA">
 												<td class="text-center">01</td>
 												<td class="text-center">Name 1</td>
 												<td class="text-center">1234567890</td>
@@ -98,7 +98,7 @@ $page = "registrations.php";
 												<td>
 													<button type="submit" name="submit" id="delete" class="btn btn-xs btn-default" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 												</td>
-											</tr>
+											</tr> -->
 										</tbody>
 									</table>
 								</div>
@@ -135,8 +135,24 @@ $page = "registrations.php";
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 	
     <script>
+        
         $(document).ready(function(){
-            $('.dataTables-example').DataTable({
+            var users = [];
+            var final_users_list = [];
+            var button_code = '<button type="submit" name="submit" id="delete" class="btn btn-xs btn-default" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></button>'; 
+
+            $.ajax({
+            type:"GET",
+            url:"http://128.199.190.92/api/dinusers",
+            success: function(data){
+                current_data = data;
+                var i;
+                
+                for(i in current_data){
+                    users = [i+1, current_data[i].name, current_data[i].email, current_data[i].contact, current_data[i].gender, button_code];
+                    final_users_list.push(users);
+                }
+                $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,
                 dom: '<"html5buttons"B>lTfgitp',
@@ -156,9 +172,12 @@ $page = "registrations.php";
                                     .css('font-size', 'inherit');
                     }
                     }
-                ]
+                ],
+                data: final_users_list
 
             });
+            }            
+        });      
 
         });
 
@@ -211,6 +230,8 @@ $page = "registrations.php";
 			
         });
     </script>
+
+
 	
 </body>
 

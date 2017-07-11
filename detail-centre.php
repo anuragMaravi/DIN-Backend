@@ -100,7 +100,7 @@ $page = "view-centre.php";
 									</div>
 									<div class="form-group"><label class="col-sm-2 control-label">Category</label>
 										<div class="col-sm-10">
-											<select class="chosen-select form-control" tabindex="2">
+											<select id = "category" class="chosen-select form-control" tabindex="2">
 												<option value="none">Select Category</option>
 												<option value="Gym">Gym</option>
 												<option value="Music">Music</option>
@@ -509,15 +509,25 @@ $page = "view-centre.php";
     <script src="js/plugins/codemirror/mode/xml/xml.js"></script>
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 	
-	<script>
 		
-$(function(){   
-	var a = sessionStorage.getItem("sent");
-    alert(a);
-});
-	</script>
     <script>
         $(document).ready(function(){
+        	var centre_id = sessionStorage.getItem("sent");
+        	$.getJSON('http://128.199.190.92/api/dingyms/'+centre_id,function(result){
+$("#name").val(result.name);
+        	$("#description").val(result.description);
+        	$("#category").val(result.category);
+        	$("#phone").val(result.number);
+        	$("#address").val(result.address);
+        	// $.each(result, function(i,centres) {
+         //    centre_name = [i+1, centres.id,centres.name, '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKG4fIYelEjQMLbGuXwLFomEMFPLdBznMy7xis5f1fmJaWfU13" width="50px" />', centres.category, centres.number, view_detail_button];
+         //    final_centre_list.push(centre_name)
+        	// });
+    		});
+        	
+        	 
+
+
             $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,
