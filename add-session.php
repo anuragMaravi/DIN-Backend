@@ -85,7 +85,9 @@ $page = "add-session.php";
 									<div class="form-group"><label class="col-sm-2 control-label">Category</label>
 										<div class="col-sm-10">
 											<select id="session-category" class="chosen-select form-control" tabindex="2">
-												
+												<option value="Gym">Gym</option>
+                                                <option value="Music">Music</option>
+                                                <option value="Dance">Dance</option>
 											</select>
 										</div>
 									</div>
@@ -182,22 +184,6 @@ $page = "add-session.php";
     <script src="js/plugins/codemirror/mode/xml/xml.js"></script>
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 
-    <!-- Get the list of centres from the database and populate "select-centre" -->
-	<script >
-        $(function(){   
-            var centreOptions;
-            $.getJSON('http://128.199.190.92/api/dingyms',function(result){
-                $.each(result, function(i,centres) {
-                    centreOptions+="<option value='"
-                    +centres.id+
-                    "'>"
-                    +centres.name+
-                    "</option>";
-                });
-                $('#session-centre').html(centreOptions);
-            });
-        });
-    </script>
 
     <script>
         $(document).ready(function(){
@@ -253,6 +239,27 @@ $page = "add-session.php";
 	<script>
         $(document).ready(function(){
             $('.clockpicker').clockpicker();
+        });
+    </script>
+
+    <!-- Get the list of centres from the database and populate "select-centre" -->
+    <script>
+        $(document).ready(function(){
+            var centreOptions;
+            $.ajax({
+                    type:"GET",
+                    url:"http://128.199.190.92/api/dingyms/",
+                    success: function(result){
+                        $.each(result, function(i,centres) {
+                            centreOptions+="<option value='"
+                            +centres.id+
+                            "'>"
+                            +centres.name+
+                            "</option>";
+                        });
+                    $('#session-centre').html(centreOptions);
+                }
+            });
         });
     </script>
 	
@@ -327,6 +334,7 @@ $page = "add-session.php";
 		                });
                     }
                 });
+
             });
 
 			

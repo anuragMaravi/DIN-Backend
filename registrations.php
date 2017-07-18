@@ -72,8 +72,8 @@ $page = "registrations.php";
 											<tr>
 												<th class="text-center">S.N.</th>
 												<th class="text-center">Name</th>
-												<th class="text-center">Phone</th>
 												<th class="text-center">Email</th>
+												<th class="text-center">Phone</th>
 												<th class="text-center">Gender</th>
 												<th class="text-center">Delete</th>
 											</tr>

@@ -164,7 +164,7 @@ $page = "add-slot.php";
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 
     <!-- Get the list of centres from the database and populate "select-centre" -->
-    <script >
+    <!-- <script >
         // First get the session data by default
         $(function(){   
             var centreOptions, sessionOptions;
@@ -212,6 +212,7 @@ $page = "add-slot.php";
                     $('#slot-session').html(sessionOptions);
                 });
             }
+
             if($(this).val()=="membership"){
                 var centreOptions, membershipOptions;
                 $.getJSON('http://128.199.190.92/api/dingyms',function(result){
@@ -234,6 +235,185 @@ $page = "add-slot.php";
                     $('#slot-centre').html(centreOptions);
                     $('#slot-session').html(membershipOptions);
                 });
+            }
+        });
+    </script> -->
+
+    <script>
+        $(document).ready(function(){
+            var centreOptions, sessionOptions;
+            var data;
+            $.ajax({
+                    type:"GET",
+                    url:"http://128.199.190.92/api/dingyms/",
+                    success: function(result){
+                        data = result;
+                        $.each(result, function(i,centres) {
+                    centreOptions+="<option value='"
+                    +centres.id+
+                    "'>"
+                    +centres.name+
+                    "</option>";
+                });        
+                $('#slot-centre').html(centreOptions);
+                sessionOptions = null;
+                    $.each(data, function(i,centres) {
+
+                    for(j in centres.daily_sessions) {
+                        if($("#slot-centre").val() == centres.id) {
+                            sessionOptions+="<option value='"
+                            +centres.daily_sessions[j].session_id+
+                            "'>"
+                            +centres.daily_sessions[j].session_name+
+                            "</option>";
+                        } else {
+                            continue;
+                        }
+                    }
+                });
+                $('#slot-session').html(sessionOptions);
+
+
+                $("#slot-centre").change(function(){
+                    sessionOptions = null;
+                    $.each(data, function(i,centres) {
+
+                    for(j in centres.daily_sessions) {
+                        if($("#slot-centre").val() == centres.id) {
+                            sessionOptions+="<option value='"
+                            +centres.daily_sessions[j].session_id+
+                            "'>"
+                            +centres.daily_sessions[j].session_name+
+                            "</option>";
+                        } else {
+                            continue;
+                        }
+                    }
+                });
+                    $('#slot-session').html(sessionOptions);
+                });
+                
+                }
+            });
+            
+        });
+
+        // Now if the option changes change the data accordingly
+        $("#slot-category").change(function(){
+            if($(this).val()=="session"){
+                var centreOptions, sessionOptions;
+            var data;
+            $.ajax({
+                    type:"GET",
+                    url:"http://128.199.190.92/api/dingyms/",
+                    success: function(result){
+                        data = result;
+                        $.each(result, function(i,centres) {
+                    centreOptions+="<option value='"
+                    +centres.id+
+                    "'>"
+                    +centres.name+
+                    "</option>";
+                });        
+                $('#slot-centre').html(centreOptions);
+                sessionOptions = null;
+                    $.each(data, function(i,centres) {
+
+                    for(j in centres.daily_sessions) {
+                        if($("#slot-centre").val() == centres.id) {
+                            sessionOptions+="<option value='"
+                            +centres.daily_sessions[j].session_id+
+                            "'>"
+                            +centres.daily_sessions[j].session_name+
+                            "</option>";
+                        } else {
+                            continue;
+                        }
+                    }
+                });
+                $('#slot-session').html(sessionOptions);
+
+
+                $("#slot-centre").change(function(){
+                    sessionOptions = null;
+                    $.each(data, function(i,centres) {
+
+                    for(j in centres.daily_sessions) {
+                        if($("#slot-centre").val() == centres.id) {
+                            sessionOptions+="<option value='"
+                            +centres.daily_sessions[j].session_id+
+                            "'>"
+                            +centres.daily_sessions[j].session_name+
+                            "</option>";
+                        } else {
+                            continue;
+                        }
+                    }
+                });
+                    $('#slot-session').html(sessionOptions);
+                });
+                
+                }
+            });
+            
+            }
+
+            if($(this).val()=="membership"){
+                var centreOptions, sessionOptions;
+            var data;
+            $.ajax({
+                    type:"GET",
+                    url:"http://128.199.190.92/api/dingyms/",
+                    success: function(result){
+                        data = result;
+                        $.each(result, function(i,centres) {
+                    centreOptions+="<option value='"
+                    +centres.id+
+                    "'>"
+                    +centres.name+
+                    "</option>";
+                });        
+                $('#slot-centre').html(centreOptions);
+                sessionOptions = null;
+                    $.each(data, function(i,centres) {
+
+                    for(j in centres.memberships) {
+                        if($("#slot-centre").val() == centres.id) {
+                            sessionOptions+="<option value='"
+                            +centres.memberships[j].membership_id+
+                            "'>"
+                            +centres.memberships[j].membership_name+
+                            "</option>";
+                        } else {
+                            continue;
+                        }
+                    }
+                });
+                $('#slot-session').html(sessionOptions);
+
+
+                $("#slot-centre").change(function(){
+                    sessionOptions = null;
+                    $.each(data, function(i,centres) {
+
+                    for(j in centres.memberships) {
+                        if($("#slot-centre").val() == centres.id) {
+                            sessionOptions+="<option value='"
+                            +centres.memberships[j].membership_id+
+                            "'>"
+                            +centres.memberships[j].membership_name+
+                            "</option>";
+                        } else {
+                            continue;
+                        }
+                    }
+                });
+                    $('#slot-session').html(sessionOptions);
+                });
+                
+                }
+            });
+            
             }
         });
     </script>
