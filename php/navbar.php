@@ -38,9 +38,7 @@
 							<ul class="nav nav-second-level collapse">
 								<li <?php if($page == 'view-centre-category.php'){ ?> class="active"<?php } ?>><a href="view-centre-category.php">Centre Category</a></li>
 								<li <?php if($page == 'view-centre.php'){ ?> class="active"<?php } ?>><a href="view-centre.php">Centre</a></li>
-								<li <?php if($page == 'view-session.php'){ ?> class="active"<?php } ?>><a href="view-session.php">Session</a></li>
-								<li <?php if($page == 'view-membership.php'){ ?> class="active"<?php } ?>><a href="view-membership.php">Membership</a></li>
-								<li <?php if($page == 'view-slot.php'){ ?> class="active"<?php } ?>><a href="view-slot.php">Slot</a></li>
+								
 							</ul>
 						</li>
                     </ul>

@@ -134,10 +134,12 @@ $page = "view-centre.php";
                 var i;
                 for(i in centres){
                     centre_name = [i+1, centres[i].id,centres[i].name, '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKG4fIYelEjQMLbGuXwLFomEMFPLdBznMy7xis5f1fmJaWfU13" width="50px" />', centres[i].category, centres[i].number, view_detail_button];
-            final_centre_list.push(centre_name);
+                final_centre_list.push(centre_name);
                 }
+
+                
                 $(document).ready(function(){
-            var table = $('.dataTables-example').DataTable({
+                var table = $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,
                 dom: '<"html5buttons"B>lTfgitp',

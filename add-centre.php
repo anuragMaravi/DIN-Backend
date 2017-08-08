@@ -76,7 +76,12 @@ $page = "add-centre.php";
 											<input type="text" class="form-control" id="centre-name" name="name" placeholder="Name of Centre" required/>
 										</div>
 									</div>
-									<div class="form-group" id="file_upload"><label class="col-sm-2 control-label">Upload Logo</label>
+                                    <div class="form-group"><label class="col-sm-2 control-label">Logo</label>
+                                        <div class="col-sm-10" style="margin-bottom:5px;">
+                                            <textarea rows="3" class="form-control" id="centre-logo" name="logo" cols="50" placeholder="Logo Url"></textarea>
+                                        </div>
+                                    </div>
+									<!-- <div class="form-group" id="file_upload"><label class="col-sm-2 control-label">Upload Logo</label>
 										<div class="col-sm-10">
 											<div class="fileinput fileinput-new input-group" data-provides="fileinput">
 												<div class="form-control" data-trigger="fileinput">
@@ -91,7 +96,7 @@ $page = "add-centre.php";
 												<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 											</div>
 										</div>
-									</div>
+									</div> -->
 									<div class="form-group"><label class="col-sm-2 control-label">Category</label>
 										<div class="col-sm-10">
 											<select id="centre-category" class="chosen-select form-control" tabindex="2">
@@ -237,6 +242,8 @@ $page = "add-centre.php";
                 var centre_description = $("#centre-description").val();
                 var centre_phone = $("#centre-phone").val();
                 var centre_address = $("#centre-address").val();
+                var centre_logo = $("#centre-logo").val();
+                console.log(centre_logo)
                 var id = centre_name.replace(/ /g, "_") + "_" + centre_category + "_" + Math.floor((Math.random() * 100000) + 1);
                 
                 var json = {
@@ -246,7 +253,7 @@ $page = "add-centre.php";
                     "description":centre_description,
                     "category":centre_category,
                     "id":id,
-                    "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKG4fIYelEjQMLbGuXwLFomEMFPLdBznMy7xis5f1fmJaWfU13"
+                    "image":centre_logo
                 };
                 $.ajax({
                     type:"POST",

@@ -353,7 +353,7 @@ $page = "view-centre.php";
 							</div>
 							<div class="ibox-content">
 								<div class="table-responsive">
-									<table class="table table-striped table-bordered table-hover dataTables-example" >
+									<table class="table table-striped table-bordered table-hover dataTables-example2" >
 										<thead>
 											<tr>
 												<th class="text-center">S.N.</th>
@@ -509,26 +509,36 @@ $page = "view-centre.php";
     <script src="js/plugins/codemirror/mode/xml/xml.js"></script>
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 	
-		
-    <script>
-        $(document).ready(function(){
-        	var centre_id = sessionStorage.getItem("sent");
-        	$.getJSON('http://128.199.190.92/api/dingyms/'+centre_id,function(result){
-$("#name").val(result.name);
+	<script>
+    var slot_box = '<a data-toggle="modal" class="btn btn-xs btn-default" href="#slots-list">All Slots</a>';
+    var slot_detail = '<a data-toggle="modal" class="btn btn-xs btn-default" href="#session-detail">Session Detail</a>';
+    var btn_delete = '<button type="submit" name="submit" id="edit" class="btn btn-xs btn-default" value="" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></button>';
+
+    var centre_id = sessionStorage.getItem("sent");
+        	var sessions = [];
+        	var session_list = [];
+
+    $.ajax({
+            type:"GET",
+            url:"http://128.199.190.92/api/dingyms/"+centre_id,
+            success: function(result){
+
+            $("#name").val(result.name);
         	$("#description").val(result.description);
         	$("#category").val(result.category);
         	$("#phone").val(result.number);
         	$("#address").val(result.address);
-        	// $.each(result, function(i,centres) {
-         //    centre_name = [i+1, centres.id,centres.name, '<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKG4fIYelEjQMLbGuXwLFomEMFPLdBznMy7xis5f1fmJaWfU13" width="50px" />', centres.category, centres.number, view_detail_button];
-         //    final_centre_list.push(centre_name)
-        	// });
-    		});
-        	
-        	 
 
+        	// data for Session Table
+        	var i;
+        	for(i in result.daily_sessions){
+                    sessions = [i+1, result.daily_sessions[i].session_name,result.daily_sessions[i].session_category, slot_box, slot_detail, btn_delete];
+                session_list.push(sessions);
+            }
 
-            $('.dataTables-example').DataTable({
+                
+                $(document).ready(function(){
+                var table = $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,
                 dom: '<"html5buttons"B>lTfgitp',
@@ -548,13 +558,76 @@ $("#name").val(result.name);
                                     .css('font-size', 'inherit');
                     }
                     }
-                ]
+                ],
+                data: session_list
 
-            });
+            	});
+
+            // $('.dataTables-example tbody').on( 'click', 'td', function () 
+            // {
+            // var tr = $(this).closest("tr");
+            // var rowindex = tr.index();
+            // var data = table.row(rowindex).data();
+            // sessionStorage.setItem("sent", data[1]); 
+            // var win = window.open('detail-centre.php', '_blank');
+            // win.focus();            
+            // });
 
         });
 
+			var members = [];
+        	var members_list = [];
+            var j;
+        	for(j in result.memberships){
+                    members = [j+1, result.memberships[j].membership_name,result.memberships[j].membership_category, slot_box, slot_detail, btn_delete];
+                members_list.push(members);
+            }
+
+                $(document).ready(function(){
+                var table = $('.dataTables-example2').DataTable({
+                pageLength: 25,
+                responsive: true,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    { extend: 'copy'},
+                    {extend: 'csv'},
+                    {extend: 'excel', title: 'ExampleFile'},
+                    {extend: 'pdf', title: 'ExampleFile'},
+
+                    {extend: 'print',
+                     customize: function (win){
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+
+                            $(win.document.body).find('table')
+                                    .addClass('compact')
+                                    .css('font-size', 'inherit');
+                    }
+                    }
+                ],
+                data: members_list
+
+            	});
+
+            // $('.dataTables-example tbody').on( 'click', 'td', function () 
+            // {
+            // var tr = $(this).closest("tr");
+            // var rowindex = tr.index();
+            // var data = table.row(rowindex).data();
+            // sessionStorage.setItem("sent", data[1]); 
+            // var win = window.open('detail-centre.php', '_blank');
+            // win.focus();            
+            // });
+
+        	});
+        
+        }            
+        });
+
+        
+
     </script>
+
 	
 	<script>
         $(document).ready(function () {
