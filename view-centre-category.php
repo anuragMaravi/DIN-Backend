@@ -76,7 +76,6 @@ $page = "view-centre-category.php";
 											<tr>
 												<th class="text-center">S.N.</th>
 												<th class="text-center">Category</th>
-												<th class="text-center">Edit</th>
 												<th class="text-center">Delete</th>
 											</tr>
 										</thead>
@@ -84,11 +83,7 @@ $page = "view-centre-category.php";
 											<tr class="gradeA">
 												<td class="text-center">01</td>
 												<td><input type="text" class="form-control" id="" name="" placeholder="" /></td>
-												<td>
-													<input type="submit" name="submit" id="edit" class="btn btn-sm btn-default" value="Edit" />
-													<input type="submit" name="submit" id="cancel" class="btn btn-sm btn-warning" value="Cancel" />
-													<input type="submit" name="submit" id="save" class="btn btn-sm btn-primary" value="Save" />
-												</td>
+						
 												<td>
 													<input type="submit" name="submit" id="delete" class="btn btn-sm btn-danger" value="Delete" />
 												</td>
@@ -96,11 +91,6 @@ $page = "view-centre-category.php";
 											<tr class="gradeA">
 												<td class="text-center">02</td>
 												<td><input type="text" class="form-control" id="" name="" placeholder="" /></td>
-												<td>
-													<input type="submit" name="submit" id="edit" class="btn btn-sm btn-default" value="Edit" />
-													<input type="submit" name="submit" id="cancel" class="btn btn-sm btn-warning" value="Cancel" />
-													<input type="submit" name="submit" id="save" class="btn btn-sm btn-primary" value="Save" />
-												</td>
 												<td>
 													<input type="submit" name="submit" id="delete" class="btn btn-sm btn-danger" value="Delete" />
 												</td>
@@ -141,8 +131,24 @@ $page = "view-centre-category.php";
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 	
     <script>
+        
         $(document).ready(function(){
-            $('.dataTables-example').DataTable({
+            var users = [];
+            var final_users_list = [];
+            var button_code = '<input type="submit" name="submit" id="delete" class="btn btn-sm btn-danger" value="Delete" />'; 
+
+            $.ajax({
+            type:"GET",
+            url:"http://128.199.190.92/api/dincategories",
+            success: function(data){
+                current_data = data;
+                var i;
+                
+                for(i in current_data){
+                    users = [parseInt(i)+1, current_data[i].CategoryName, button_code];
+                    final_users_list.push(users);
+                }
+                $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,
                 dom: '<"html5buttons"B>lTfgitp',
@@ -162,9 +168,12 @@ $page = "view-centre-category.php";
                                     .css('font-size', 'inherit');
                     }
                     }
-                ]
+                ],
+                data: final_users_list
 
             });
+            }            
+        });      
 
         });
 

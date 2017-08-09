@@ -149,7 +149,7 @@ $page = "registrations.php";
                 var i;
                 
                 for(i in current_data){
-                    users = [i+1, current_data[i].name, current_data[i].email, current_data[i].contact, current_data[i].gender, button_code];
+                    users = [parseInt(i)+1, current_data[i].name, current_data[i].email, current_data[i].contact, current_data[i].gender, button_code];
                     final_users_list.push(users);
                 }
                 $('.dataTables-example').DataTable({
