@@ -77,7 +77,6 @@ $page = "booking-membership.php";
 												<th class="text-center">Centre</th>
 												<th class="text-center">Category</th>
 												<th class="text-center">Duration</th>
-												<th class="text-center">Delete</th>
 											</tr>
 										</thead>
 										<tbody class="text-center">
@@ -88,9 +87,7 @@ $page = "booking-membership.php";
 												<td class="text-center">Abc Gym</td>
 												<td class="text-center">Gym</td>
 												<td class="text-center">12/04/2017 to 12/06/17</td>
-												<td>
-													<button type="submit" name="submit" id="delete" class="btn btn-xs btn-default" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-												</td>
+												
 											</tr>
 											<tr class="gradeA">
 												<td class="text-center">02</td>
@@ -99,9 +96,7 @@ $page = "booking-membership.php";
 												<td class="text-center">Abc Gym</td>
 												<td class="text-center">Gym</td>
 												<td class="text-center">12/04/2017 to 12/06/17</td>
-												<td>
-													<button type="submit" name="submit" id="delete" class="btn btn-xs btn-default" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-												</td>
+												
 											</tr>
 										</tbody>
 									</table>

@@ -122,6 +122,7 @@ $page = "view-centre.php";
 
     <script>
     var view_detail_button = '<a href="detail-centre.php" target="_blank"><input type="submit" name="submit" id="view_detail" class="btn btn-xs btn-primary" value="View detail" /></a><input type="submit" name="submit" id="delete" class="btn btn-xs btn-danger" value="Delete" />';
+    var view_detail_button = '<a href="detail-centre.php" target="_blank"><input type="submit" name="submit" id="view_detail" class="btn btn-xs btn-primary" value="View detail" /></a>';
 
     var centre_name = [];
     var final_centre_list = [];

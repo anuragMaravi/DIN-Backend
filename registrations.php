@@ -75,7 +75,6 @@ $page = "registrations.php";
 												<th class="text-center">Email</th>
 												<th class="text-center">Phone</th>
 												<th class="text-center">Gender</th>
-												<th class="text-center">Delete</th>
 											</tr>
 										</thead>
 										<tbody class="text-center">
@@ -139,7 +138,7 @@ $page = "registrations.php";
         $(document).ready(function(){
             var users = [];
             var final_users_list = [];
-            var button_code = '<button type="submit" name="submit" id="delete" class="btn btn-xs btn-default" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></button>'; 
+            // var button_code = '<button type="submit" name="submit" id="delete" class="btn btn-xs btn-default" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></button>'; 
 
             $.ajax({
             type:"GET",
@@ -149,7 +148,7 @@ $page = "registrations.php";
                 var i;
                 
                 for(i in current_data){
-                    users = [parseInt(i)+1, current_data[i].name, current_data[i].email, current_data[i].contact, current_data[i].gender, button_code];
+                    users = [parseInt(i)+1, current_data[i].name, current_data[i].email, current_data[i].contact, current_data[i].gender];
                     final_users_list.push(users);
                 }
                 $('.dataTables-example').DataTable({
@@ -207,6 +206,26 @@ $page = "registrations.php";
 	<script>
         $(document).ready(function(){
             $('.clockpicker').clockpicker();
+        });
+    </script>
+
+    <!-- Delete a registration -->
+    <script>
+        $("#delete-centre").on("click",function(){
+            var centre_id = sessionStorage.getItem("sent");
+            var del = confirm("Are you sure you want delete this centre? \nCentre Id: " + centre_id);
+            if(del == true) {
+                
+                $.ajax({
+                url: "http://128.199.190.92/api/dingyms/" + centre_id,
+                type: 'DELETE',
+                success: function(result) {
+                alert("Successfully Deleted!");
+                close();
+                }
+                });
+                
+            }
         });
     </script>
 	

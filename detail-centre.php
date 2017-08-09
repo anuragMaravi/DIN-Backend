@@ -74,7 +74,7 @@ $page = "view-centre.php";
 								<form method="post" class="form-horizontal" action="" enctype="multipart/form-data">
 									<div class="form-group">
 										<div class="pull-right" style="margin-right:16px;">
-											<input type="button" class="btn btn-sm btn-primary" value="Edit" />
+											<input type="button" class="btn btn-sm btn-danger" id="delete-centre" value="Delete Centre" />
 										</div>
 									</div>
 									<div class="form-group"><label class="col-sm-2 control-label">Name</label>
@@ -655,6 +655,27 @@ $page = "view-centre.php";
             $('.clockpicker').clockpicker();
         });
     </script>
+
+    <!-- Delete a centre -->
+    <script>
+        $("#delete-centre").on("click",function(){
+        	var centre_id = sessionStorage.getItem("sent");
+        	var del = confirm("Are you sure you want delete this centre? \nCentre Id: " + centre_id);
+        	if(del == true) {
+        		
+        		$.ajax({
+    			url: "http://128.199.190.92/api/dingyms/" + centre_id,
+    			type: 'DELETE',
+    			success: function(result) {
+        		alert("Successfully Deleted!");
+        		close();
+    			}
+				});
+        		
+        	}
+        });
+    </script>
+    
 	
     <script>
         $(document).ready(function(){
