@@ -78,7 +78,7 @@ $page = "add-centre-category.php";
 									</div>
 									<div class="form-group">
 										<div class="text-center">
-											<input type="submit" name="submit" id="save" class="btn btn-w-m btn-primary" value="Add" />
+											<input type="button" name="submit" id="save" class="btn btn-w-m btn-primary" value="Add" />
 										</div>
 									</div>
 								</form>
@@ -116,82 +116,33 @@ $page = "add-centre-category.php";
 	
     <script>
         $(document).ready(function(){
-            $('.dataTables-example').DataTable({
-                pageLength: 25,
-                responsive: true,
-                dom: '<"html5buttons"B>lTfgitp',
-                buttons: [
-                    { extend: 'copy'},
-                    {extend: 'csv'},
-                    {extend: 'excel', title: 'ExampleFile'},
-                    {extend: 'pdf', title: 'ExampleFile'},
 
-                    {extend: 'print',
-                     customize: function (win){
-                            $(win.document.body).addClass('white-bg');
-                            $(win.document.body).css('font-size', '10px');
+            $("#save").on("click",function(){
+                
+                var category_name = $("#category").val();
+                var category_id = category_name;
+                
+                var json = {
+                    "CategoryName":category_name,
+                    "CategoryId":category_name
+                };
 
-                            $(win.document.body).find('table')
-                                    .addClass('compact')
-                                    .css('font-size', 'inherit');
+                $.ajax({
+                    type:"POST",
+                    url:"http://128.199.190.92/api/dincategories",
+                    data:json,
+                    success: function(data){
+                        console.log(data);
+                        alert(category_name + " successfully added!");
+                    },
+                    error: function(xhr, status, error) {
+                      alert(category_name + " is already available. Please try some other category name.");
                     }
-                    }
-                ]
-
-            });
-
-        });
-
-    </script>
-	
-	<script>
-        $(document).ready(function () {
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
+                });
             });
         });
     </script>
 
-    <script>
-        $(document).ready(function(){
-            $('#data_1 .input-group.date').datepicker({
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                calendarWeeks: true,
-                autoclose: true
-            });
-        });
-    </script>
-
-	<script>
-        $(document).ready(function(){
-            $('.clockpicker').clockpicker();
-        });
-    </script>
-	
-    <script>
-        $(document).ready(function(){
-
-            $('#data_1 .input-group.date').datepicker({
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                calendarWeeks: true,
-                autoclose: true,
-				format:'dd-mm-yyyy'
-            });
-			
-			$('#data_5 .input-daterange').datepicker({
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true
-            });
-			
-        });
-    </script>
-	
 </body>
 
 </html>
