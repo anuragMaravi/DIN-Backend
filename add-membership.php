@@ -185,6 +185,27 @@ $page = "add-membership.php";
         });
     </script>
 
+    <!-- Get the list of categories from the database and populate "select-centre" -->
+    <script>
+        $(document).ready(function(){
+            var categories;
+            $.ajax({
+                    type:"GET",
+                    url:"http://128.199.190.92/api/dincategories",
+                    success: function(result){
+                        $.each(result, function(i,centres) {
+                            categories+="<option value='"
+                            +centres.CategoryName+
+                            "'>"
+                            +centres.CategoryId+
+                            "</option>";
+                        });
+                    $('#membership-category').html(categories);
+                }
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function(){
             $('.dataTables-example').DataTable({
