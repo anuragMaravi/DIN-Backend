@@ -76,9 +76,20 @@ $page = "add-membership.php";
                                             <input type="text" class="form-control" id="membership-name" name="name" placeholder="Name of Membership" required/>
                                         </div>
                                     </div>
-                                    <div class="form-group"><label class="col-sm-2 control-label">Logo</label>
-                                        <div class="col-sm-10" style="margin-bottom:5px;">
-                                            <textarea rows="3" class="form-control" id="membership-logo" name="logo" cols="50" placeholder="Logo Url"></textarea>
+                                    <div class="form-group" id="file_upload"><label class="col-sm-2 control-label">Upload Image</label>
+                                        <div class="col-sm-10">
+                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                <div class="form-control" data-trigger="fileinput">
+                                                    <i class="glyphicon glyphicon-file fileinput-exists"></i> 
+                                                    <span class="fileinput-filename"></span>
+                                                </div>
+                                                <span class="input-group-addon btn btn-default btn-file">
+                                                    <span class="fileinput-new">Browse Image</span>
+                                                    <span class="fileinput-exists">Change</span>
+                                                    <input type="file" name="file" id="filex" required >
+                                                </span>
+                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group"><label class="col-sm-2 control-label">Centre</label>
@@ -293,6 +304,8 @@ $page = "add-membership.php";
                 var membership_description = $("#membership-description").val();
                 var centre_id = $("#membership-centre").val();
                 var id = centre_id + "_" +membership_name.replace(/ /g, "_") + "_" + Math.floor((Math.random() * 100000) + 1);
+                var imgName = id + "_img.jpg"
+                var membership_logo = "http://128.199.190.92/api/Containers/membershipimages/download/" + imgName;
 
                 var membership = {
                     "membership_id": id,
@@ -331,6 +344,25 @@ $page = "add-membership.php";
                         });
                     }
                 });
+
+                var file_data = $("#filex").prop("files")[0];
+                var formData = new FormData();
+                formData.append('file', file_data, imgName);
+                $.ajax({
+                    type:"POST",
+                    url:"http://128.199.190.92/api/Containers/membershipimages/upload",
+                    datatype:'script',
+                    data:formData,
+                    contentType:false,
+                    success: function(fileData){
+                        console.log(fileData);
+                        alert("Data added successfully!");
+                        location.reload();
+                    },
+                    cache : false,
+                    processData: false
+                });
+                
             });
 
 

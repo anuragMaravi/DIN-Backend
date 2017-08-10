@@ -77,7 +77,7 @@ $page = "add-session.php";
                                             <input type="text" class="form-control" id="session-name" name="name" placeholder="Name of Session" required/>
                                         </div>
                                     </div>
-                                    <div class="form-group" id="file_upload"><label class="col-sm-2 control-label">Upload Logo</label>
+                                    <div class="form-group" id="file_upload"><label class="col-sm-2 control-label">Upload Image</label>
                                         <div class="col-sm-10">
                                             <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                                                 <div class="form-control" data-trigger="fileinput">
@@ -85,7 +85,7 @@ $page = "add-session.php";
                                                     <span class="fileinput-filename"></span>
                                                 </div>
                                                 <span class="input-group-addon btn btn-default btn-file">
-                                                    <span class="fileinput-new">Browse logo</span>
+                                                    <span class="fileinput-new">Browse Image</span>
                                                     <span class="fileinput-exists">Change</span>
                                                     <input type="file" name="file" id="filex" required >
                                                 </span>
