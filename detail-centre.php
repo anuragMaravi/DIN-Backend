@@ -660,7 +660,7 @@ $page = "view-centre.php";
     <script>
         $("#delete-centre").on("click",function(){
         	var centre_id = sessionStorage.getItem("sent");
-        	var del = confirm("Are you sure you want delete this centre? \nCentre Id: " + centre_id);
+        	var del = confirm("Are you sure you want to delete this centre? \nCentre Id: " + centre_id);
         	if(del == true) {
         		
         		$.ajax({

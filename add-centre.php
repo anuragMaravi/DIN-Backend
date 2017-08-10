@@ -86,12 +86,17 @@ $page = "add-centre.php";
                                                 <span class="input-group-addon btn btn-default btn-file">
                                                     <span class="fileinput-new">Browse logo</span>
                                                     <span class="fileinput-exists">Change</span>
-                                                    <input type="file" name="file" id="file" required >
+                                                    <input type="file" name="file" id="filex" required >
                                                 </span>
                                                 <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                                             </div>
                                         </div>
                                     </div>
+                                     <!-- <div class="form-group"><label class="col-sm-2 control-label">Logo</label>
+                                        <div class="col-sm-10" style="margin-bottom:5px;">
+                                            <textarea rows="3" class="form-control" id="centre-logo" name="logo" cols="50" placeholder="Logo Url"></textarea>
+                                        </div>
+                                    </div> -->
 									<div class="form-group"><label class="col-sm-2 control-label">Category</label>
 										<div class="col-sm-10">
 											<select id="centre-category" class="chosen-select form-control" tabindex="2">
@@ -119,7 +124,7 @@ $page = "add-centre.php";
 									</div>
 									<div class="form-group">
 										<div class="text-center">
-											<input type="submit" name="submit" id="add-centre" class="btn btn-w-m btn-primary" value="Add" />
+											<input type="button" name="submit" id="add-centre" class="btn btn-w-m btn-primary" value="Add" />
 										</div>
 									</div>
 								</form>
@@ -251,51 +256,52 @@ $page = "add-centre.php";
                 autoclose: true
             });
 			
-
             $("#add-centre").on("click",function(){
-                // var centre_name = $("#centre-name").val();
-                // var centre_category = $("#centre-category").val();
-                // var centre_description = $("#centre-description").val();
-                // var centre_phone = $("#centre-phone").val();
-                // var centre_address = $("#centre-address").val();
-                // var centre_logo = $("#centre-logo").val();
-                // console.log(centre_logo)
-                // var id = centre_name.replace(/ /g, "_") + "_" + centre_category + "_" + Math.floor((Math.random() * 100000) + 1);
-                
-                // var json = {
-                //     "name":centre_name,
-                //     "address":centre_address,
-                //     "number":centre_phone,
-                //     "description":centre_description,
-                //     "category":centre_category,
-                //     "id":id,
-                //     "image":centre_logo
-                // };
+                var centre_name = $("#centre-name").val();
+                var centre_category = $("#centre-category").val();
+                var centre_description = $("#centre-description").val();
+                var centre_phone = $("#centre-phone").val();
+                var centre_address = $("#centre-address").val();
+                var id = centre_name.replace(/ /g, "_") + "_" + centre_category + "_" + Math.floor((Math.random() * 100000) + 1);
+                var imgName = id + "_logo.jpg"
+                var centre_logo = "http://128.199.190.92/api/Containers/centreimages/download/" + imgName;
 
-                // $.ajax({
-                //     type:"POST",
-                //     url:"http://128.199.190.92/api/dingyms",
-                //     data:json,
-                //     success: function(data){
-                //         console.log(data);
-                //     }
-                // });
+                var json = {
+                    "name":centre_name,
+                    "address":centre_address,
+                    "number":centre_phone,
+                    "description":centre_description,
+                    "category":centre_category,
+                    "id":id,
+                    "image":centre_logo
+                };
 
-                // var image = $("#file").files;
-                var image = document.getElementById('file').files[0];
-                console.log(image);
+                $.ajax({
+                    type:"POST",
+                    url:"http://128.199.190.92/api/dingyms",
+                    data:json,
+                    success: function(data){
+                        console.log(data);
+                    }
+                });
+
+                var file_data = $("#filex").prop("files")[0];
+                var formData = new FormData();
+                formData.append('file', file_data, imgName);
                 $.ajax({
                     type:"POST",
                     url:"http://128.199.190.92/api/Containers/centreimages/upload",
-                    data:image,
+                    datatype:'script',
+                    data:formData,
+                    contentType:false,
                     success: function(fileData){
-                        console.log("Response");
+                        console.log(fileData);
+                        alert("Data added successfully!");
+                        location.reload();
                     },
                     cache : false,
                     processData: false
                 });
-
-
             });
         });
     </script>

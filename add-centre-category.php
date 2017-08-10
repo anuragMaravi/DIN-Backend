@@ -134,9 +134,11 @@ $page = "add-centre-category.php";
                     success: function(data){
                         console.log(data);
                         alert(category_name + " successfully added!");
+                        location.reload();
                     },
                     error: function(xhr, status, error) {
                       alert(category_name + " is already available. Please try some other category name.");
+                      location.reload();
                     }
                 });
             });

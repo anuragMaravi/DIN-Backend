@@ -147,12 +147,22 @@ $page = "booking-session.php";
             url:"http://128.199.190.92/api/dinusers",
             success: function(data){
                 current_data = data;
-                var i;
+                var i, j;
+                var chk;
                 
                 for(i in current_data){
-                    console.log(current_data[i].bookingdetails[0]);
-                    users = [parseInt(i)+1, current_data[i].name, current_data[i].contact, current_data[i].contact, current_data[i].gender, current_data[i].gender, current_data[i].gender];
-                    final_users_list.push(users);
+                    try {
+                        chk = current_data[i].bookingdetails;
+                        for(j in chk) {
+                            users = [parseInt(i)+1, current_data[i].name, current_data[i].contact, chk[j].gymId, chk[j].type, chk[j].date, chk[j].slotId];
+                            
+                            final_users_list.push(users);
+                        }
+                    }
+                    catch(err) {
+                        continue;
+                    }
+                    
                 }
                 $('.dataTables-example').DataTable({
                 pageLength: 25,

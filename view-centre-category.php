@@ -148,7 +148,7 @@ $page = "view-centre-category.php";
                     users = [parseInt(i)+1, current_data[i].CategoryName, button_code];
                     final_users_list.push(users);
                 }
-                $('.dataTables-example').DataTable({
+                var table = $('.dataTables-example').DataTable({
                 pageLength: 25,
                 responsive: true,
                 dom: '<"html5buttons"B>lTfgitp',
@@ -171,6 +171,26 @@ $page = "view-centre-category.php";
                 ],
                 data: final_users_list
 
+            });
+
+            $('.dataTables-example tbody').on( 'click', 'td', function () 
+            {
+            var tr = $(this).closest("tr");
+            var rowindex = tr.index();
+            var data = table.row(rowindex).data();
+            var del = confirm("Are you sure you want to delete " + data[1]);
+            if(del == true) {
+                
+                $.ajax({
+                url: "http://128.199.190.92/api/dincategories/" + data[1],
+                type: 'DELETE',
+                success: function(result) {
+                alert("Successfully Deleted!");
+                location.reload();
+                }
+                });
+                
+            }           
             });
             }            
         });      
