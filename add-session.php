@@ -77,9 +77,20 @@ $page = "add-session.php";
                                             <input type="text" class="form-control" id="session-name" name="name" placeholder="Name of Session" required/>
                                         </div>
                                     </div>
-                                    <div class="form-group"><label class="col-sm-2 control-label">Logo</label>
-                                        <div class="col-sm-10" style="margin-bottom:5px;">
-                                            <textarea rows="3" class="form-control" id="session-logo" name="logo" cols="50" placeholder="Logo Url"></textarea>
+                                    <div class="form-group" id="file_upload"><label class="col-sm-2 control-label">Upload Logo</label>
+                                        <div class="col-sm-10">
+                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                <div class="form-control" data-trigger="fileinput">
+                                                    <i class="glyphicon glyphicon-file fileinput-exists"></i> 
+                                                    <span class="fileinput-filename"></span>
+                                                </div>
+                                                <span class="input-group-addon btn btn-default btn-file">
+                                                    <span class="fileinput-new">Browse logo</span>
+                                                    <span class="fileinput-exists">Change</span>
+                                                    <input type="file" name="file" id="filex" required >
+                                                </span>
+                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group"><label class="col-sm-2 control-label">Centre</label>
@@ -289,7 +300,6 @@ $page = "add-session.php";
 
             $("#add-session").on("click",function(){
                 var session_name = $("#session-name").val();
-                var session_logo = $("#session-logo").val();
                 var session_centre = $("#session-centre").val();
                 var session_category = $("#session-category").val();
                 var base_rate = $("#base-rate").val();
@@ -299,6 +309,8 @@ $page = "add-session.php";
                 var session_description = $("#session-description").val();
                 var centre_id = $("#session-centre").val();
                 var id = centre_id + "_" +session_name.replace(/ /g, "_") + "_" +Math.floor((Math.random() * 100000) + 1);
+                var imgName = id + "_img.jpg"
+                var session_logo = "http://128.199.190.92/api/Containers/sessionimages/download/" + imgName;
 
                 var session = {
                     "session_id": id,
@@ -336,6 +348,24 @@ $page = "add-session.php";
                             }
                         });
                     }
+                });
+
+                var file_data = $("#filex").prop("files")[0];
+                var formData = new FormData();
+                formData.append('file', file_data, imgName);
+                $.ajax({
+                    type:"POST",
+                    url:"http://128.199.190.92/api/Containers/sessionimages/upload",
+                    datatype:'script',
+                    data:formData,
+                    contentType:false,
+                    success: function(fileData){
+                        console.log(fileData);
+                        alert("Data added successfully!");
+                        location.reload();
+                    },
+                    cache : false,
+                    processData: false
                 });
 
             });
